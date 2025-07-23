@@ -2,7 +2,7 @@
 
 #define max_SIZE 100
 int SIZE;
-int A[SIZE], B[SIZE];
+int A[max_SIZE], B[max_SIZE];
 
 
 void merge(int lb, int mid, int ub) {
