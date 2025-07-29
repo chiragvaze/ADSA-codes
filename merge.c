@@ -1,8 +1,8 @@
 #include <stdio.h>
 
-#define SIZE 9
-
-int A[SIZE], B[SIZE];
+#define max_SIZE 100
+int SIZE;
+int A[max_SIZE], B[max_SIZE];
 
 
 void merge(int lb, int mid, int ub) {
@@ -53,6 +53,9 @@ void mergeSort(int lb, int ub) {
 
 
 int main() {
+    printf("Enter size of the array ");
+    scanf("%d", &SIZE);
+    
     printf("Enter %d elements:\n", SIZE);
     for (int i = 0; i < SIZE; i++) {
         scanf("%d", &A[i]);
