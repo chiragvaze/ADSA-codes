@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Hash {
+public class hash {
 
     public static void hash(String name, int size){
 
