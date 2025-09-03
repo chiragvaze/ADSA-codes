@@ -1,68 +1,112 @@
-#include<stdio.h>
-#include<stdlib.h>
-#define MAX 10
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 100
+
+int front = -1, rear = -1;
 int queue[MAX];
-int front = -1;
-int rear = -1;
-int visited[MAX];
-void enqueue(int vertex){
-    if(rear == MAX-1){
+
+// Circular queue enqueue
+void enqueue(int vertex) {
+    if ((rear + 1) % MAX == front) {
         printf("Queue is Full\n");
         return;
     }
-    if(front == -1){
-        front = 0;
+    if (front == -1) {
+        front = rear = 0;
+    } else {
+        rear = (rear + 1) % MAX;
     }
-    rear = rear + 1;
     queue[rear] = vertex;
 }
-int dequeue(){
-    if(front == -1){
+
+// Circular queue dequeue
+int dequeue() {
+    if (front == -1) {
         return -1;
     }
     int vertex = queue[front];
-    if (front >= rear){
-        front = -1;
-        rear = -1;
-    }
-    else {
-        front = front + 1;
+    if (front == rear) {
+        front = rear = -1; // Queue is now empty
+    } else {
+        front = (front + 1) % MAX;
     }
     return vertex;
 }
-void BFS(int graph[MAX][MAX],int vertices, int start_vertex){
-    for(int i = 0; i<vertices; i++){
-        visited[i] = 0;
+
+// BFS function
+void BFS(int **graph, int vertices, int start_vertex) {
+    int *visited = (int *)calloc(vertices, sizeof(int));
+    if (!visited) {
+        printf("Memory allocation failed.\n");
+        return;
     }
+
     enqueue(start_vertex);
     visited[start_vertex] = 1;
+
     printf("BFS Traversal: ");
-    while(front !=-1){
+    while (front != -1) {
         int current_vertex = dequeue();
         printf("%d ", current_vertex);
-    for(int i = 0; i<vertices; i++){
-        if(graph[current_vertex][i] == 1 && visited[i] == 0){
-            enqueue(i);
-            visited[i] = 1;
+
+        for (int i = 0; i < vertices; i++) {
+            if (graph[current_vertex][i] == 1 && !visited[i]) {
+                enqueue(i);
+                visited[i] = 1;
             }
         }
     }
     printf("\n");
+
+    free(visited);
 }
 
-int main(){
-    int vertices,start;
-    int graph[MAX][MAX];
-    printf("Enter the Number of Vertices: ");
-    scanf("%d",&vertices);
-    printf("Enter the Adjacency Matrix(%d x %d):\n",vertices,vertices);
-    for(int i = 0; i<vertices; i++){
-        for(int j = 0; j<vertices; j++){
-            scanf("%d",&graph[i][j]);
+// Main function
+int main() {
+    int vertices, start;
+    
+    printf("Enter the Number of Vertices (max %d): ", MAX);
+    scanf("%d", &vertices);
+    
+    if (vertices <= 0 || vertices > MAX) {
+        printf("Invalid number of vertices.\n");
+        return 1;
+    }
+
+    // Allocate memory for graph
+    int **graph = (int **)malloc(vertices * sizeof(int *));
+    for (int i = 0; i < vertices; i++) {
+        graph[i] = (int *)malloc(vertices * sizeof(int));
+    }
+
+    printf("Enter the Adjacency Matrix (%d x %d):\n", vertices, vertices);
+    for (int i = 0; i < vertices; i++) {
+        for (int j = 0; j < vertices; j++) {
+            scanf("%d", &graph[i][j]);
         }
     }
-    printf("Enter the Starting Vertex: ");
-    scanf("%d",&start);
-    BFS(graph,vertices,start);
+
+    printf("Enter the Starting Vertex (0 to %d): ", vertices - 1);
+    scanf("%d", &start);
+
+    if (start < 0 || start >= vertices) {
+        printf("Invalid starting vertex.\n");
+        // Free memory
+        for (int i = 0; i < vertices; i++) {
+            free(graph[i]);
+        }
+        free(graph);
+        return 1;
+    }
+
+    BFS(graph, vertices, start);
+
+    // Free memory
+    for (int i = 0; i < vertices; i++) {
+        free(graph[i]);
+    }
+    free(graph);
+
     return 0;
 }
