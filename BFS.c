@@ -27,14 +27,14 @@ int dequeue() {
     }
     int vertex = queue[front];
     if (front == rear) {
-        front = rear = -1; // Queue is now empty
+        front = rear = -1;
     } else {
         front = (front + 1) % MAX;
     }
     return vertex;
 }
 
-// BFS function
+// BFS Traversal
 void BFS(int **graph, int vertices, int start_vertex) {
     int *visited = (int *)calloc(vertices, sizeof(int));
     if (!visited) {
@@ -51,7 +51,8 @@ void BFS(int **graph, int vertices, int start_vertex) {
         printf("%d ", current_vertex);
 
         for (int i = 0; i < vertices; i++) {
-            if (graph[current_vertex][i] == 1 && !visited[i]) {
+            // Accept any non-zero value as an edge (supports weighted graphs)
+            if (graph[current_vertex][i] != 0 && !visited[i]) {
                 enqueue(i);
                 visited[i] = 1;
             }
@@ -62,19 +63,18 @@ void BFS(int **graph, int vertices, int start_vertex) {
     free(visited);
 }
 
-// Main function
 int main() {
     int vertices, start;
-    
+
     printf("Enter the Number of Vertices (max %d): ", MAX);
     scanf("%d", &vertices);
-    
+
     if (vertices <= 0 || vertices > MAX) {
         printf("Invalid number of vertices.\n");
         return 1;
     }
 
-    // Allocate memory for graph
+    // Allocate adjacency matrix
     int **graph = (int **)malloc(vertices * sizeof(int *));
     for (int i = 0; i < vertices; i++) {
         graph[i] = (int *)malloc(vertices * sizeof(int));
