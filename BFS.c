@@ -66,7 +66,7 @@ void BFS(int **graph, int vertices, int start_vertex) {
 int main() {
     int vertices, start;
 
-    printf("Enter the Number of Vertices (max %d): ", MAX);
+    printf("Enter the Number of Vertices:-");
     scanf("%d", &vertices);
 
     if (vertices <= 0 || vertices > MAX) {
