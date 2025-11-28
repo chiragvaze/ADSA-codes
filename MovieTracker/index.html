@@ -3,51 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Tracker</title>
+    <title>Movie Tracker | Premium Experience</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="description" content="A premium movie tracking experience with beautiful animations">
 </head>
 <body>
+    <!-- Particle Background Canvas -->
+    <canvas id="particles-canvas"></canvas>
+    
     <header>
-        <h1>🎬 Movie Tracker</h1>
+        <h1>Movie Tracker</h1>
         <nav>
-            <button id="watchedTab" class="active">Watched</button>
-            <button id="wishlistTab">Wishlist</button>
-            <button id="statsTab">Stats</button>
+            <button id="watchedTab" class="active" aria-label="View watched movies">Watched</button>
+            <button id="wishlistTab" aria-label="View wishlist">Wishlist</button>
+            <button id="statsTab" aria-label="View statistics">Stats</button>
         </nav>
     </header>
+    
     <main>
         <section id="addMovieSection">
             <h2>Add a Movie</h2>
-            <form id="movieForm">
-                <input type="text" id="movieTitle" placeholder="Movie Title" required>
-                <input type="text" id="movieYear" placeholder="Year (optional)">
-                <input type="text" id="movieGenre" placeholder="Genre (optional)">
-                <select id="movieListType">
-                    <option value="watched">Watched</option>
-                    <option value="wishlist">Wishlist</option>
+            <form id="movieForm" autocomplete="off">
+                <input type="text" id="movieTitle" placeholder="✨ Movie Title" required aria-label="Movie title">
+                <input type="text" id="movieYear" placeholder="📅 Year" aria-label="Release year">
+                <input type="text" id="movieGenre" placeholder="🎭 Genre" aria-label="Movie genre">
+                <select id="movieListType" aria-label="Select list type">
+                    <option value="watched">📽️ Watched</option>
+                    <option value="wishlist">⭐ Wishlist</option>
                 </select>
                 <button type="submit">Add Movie</button>
             </form>
         </section>
+        
         <section id="watchedSection" class="movieSection">
             <h2>Watched Movies</h2>
-            <ul id="watchedList"></ul>
+            <ul id="watchedList" role="list"></ul>
         </section>
+        
         <section id="wishlistSection" class="movieSection hidden">
             <h2>Wishlist</h2>
-            <ul id="wishlist"></ul>
+            <ul id="wishlist" role="list"></ul>
         </section>
+        
         <section id="statsSection" class="movieSection hidden">
             <h2>Statistics</h2>
             <div id="stats"></div>
         </section>
     </main>
+    
     <footer>
-        <p>Made with ❤️ for movie lovers</p>
+        <p>Made with <span>❤️</span> for movie lovers</p>
     </footer>
+    
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
+    
     <script src="script.js"></script>
 </body>
 </html>
