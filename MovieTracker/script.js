@@ -428,7 +428,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        // Focus search on Ctrl+F or Cmd+F
+        // Focus search on Ctrl+K
         if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
             e.preventDefault();
             movieTitle.focus();
@@ -436,47 +436,25 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ===============================================
-    // BUTTON RIPPLE EFFECT
+    // BUTTON RIPPLE EFFECT (using event delegation)
     // ===============================================
-    document.querySelectorAll('button').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            const rect = this.getBoundingClientRect();
-            const ripple = document.createElement('span');
-            ripple.className = 'ripple';
-            ripple.style.cssText = `
-                position: absolute;
-                background: rgba(255, 255, 255, 0.3);
-                border-radius: 50%;
-                transform: scale(0);
-                animation: ripple 0.6s linear;
-                pointer-events: none;
-                left: ${e.clientX - rect.left}px;
-                top: ${e.clientY - rect.top}px;
-                width: 100px;
-                height: 100px;
-                margin-left: -50px;
-                margin-top: -50px;
-            `;
-            
-            this.style.position = 'relative';
-            this.style.overflow = 'hidden';
-            this.appendChild(ripple);
-            
-            setTimeout(() => ripple.remove(), 600);
-        });
+    document.addEventListener('click', function(e) {
+        const button = e.target.closest('button');
+        if (!button) return;
+        
+        // Add ripple container class if not present
+        button.classList.add('ripple-container');
+        
+        const rect = button.getBoundingClientRect();
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple';
+        ripple.style.left = `${e.clientX - rect.left}px`;
+        ripple.style.top = `${e.clientY - rect.top}px`;
+        
+        button.appendChild(ripple);
+        
+        setTimeout(() => ripple.remove(), 600);
     });
-
-    // Add ripple animation style
-    const rippleStyle = document.createElement('style');
-    rippleStyle.textContent = `
-        @keyframes ripple {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
-        }
-    `;
-    document.head.appendChild(rippleStyle);
 
     // ===============================================
     // EVENT LISTENERS
