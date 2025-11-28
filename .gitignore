@@ -14,8 +14,6 @@ build/
 *.swp
 *.swo
 *~
-.DS_Store
-Thumbs.db
 
 # Log files
 *.log
@@ -32,6 +30,7 @@ npm-debug.log*
 ._*
 .Spotlight-V100
 .Trashes
+Thumbs.db
 ehthumbs.db
 
 # Temporary files
